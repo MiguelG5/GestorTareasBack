@@ -18,7 +18,7 @@ actividadesCtrl.createActividad = async (req, res) => {
   try {
     const { proyecto_id, nombre_actividad, descripcion, fecha_finalizacion } = req.body;
 
-    if (!proyecto_id || !nombre_actividad) {
+    if (!nombre_actividad) {
       return res.status(400).json({
         error: "proyecto_id y nombre_actividad son campos requeridos.",
       });

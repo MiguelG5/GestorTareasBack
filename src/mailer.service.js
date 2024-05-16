@@ -182,43 +182,42 @@ async function secondFactor(correo, codigo) {
   const mensaje = {
     from: "mikeyjaime99@gmail.com",
     to: correo,
-    subject: "Segundo Factor de Autenticación",
+    subject: "Autenticación en 2 pasos",
     html: `<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Código de Segundo Factor de Autenticación - Gustoes</title>
-</head>
-<body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
-
-    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
-        
-        <h2 style="color: #333333;">Código de Segundo Factor de Autenticación - Gustoes</h2>
-        
-        <p style="color: #666666;">Hola,</p>
-        
-        <p style="color: #666666;">Recibes este correo porque has optado por usar un segundo factor de autenticación para iniciar sesión en Gustoes, el restaurante elegante por excelencia.</p>
-        
-        <p style="color: #666666;">Tu código de segundo factor de autenticación es:</p>
-        
-        <div style="background-color: #f5f5f5; padding: 10px 20px; border-radius: 5px; margin-bottom: 20px;">
-            <h3 style="margin: 0; color: #333333; font-size: 24px;">${codigo}</h3>
-        </div>
-        
-        <p style="color: #666666;">Por favor, utiliza este código como segundo paso para completar tu inicio de sesión en Gustoes. Este código es válido por un tiempo limitado.</p>
-        
-        <p style="color: #666666;">Si no intentaste iniciar sesión o no solicitaste este código, por favor ignora este correo.</p>
-        
-        <p style="color: #666666;">Gracias,</p>
-        
-        <p style="color: #666666;">El equipo de Gustoes</p>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Código de Segundo Factor de Autenticación - TareaTech</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
     
-    </div>
-
-</body>
-</html>
-`,
+        <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+            
+            <h2 style="color: #333333;">Código de Segundo Factor de Autenticación - TareaTech</h2>
+            
+            <p style="color: #666666;">Hola,</p>
+            
+            <p style="color: #666666;">Recibes este correo porque has optado por usar un segundo factor de autenticación para iniciar sesión en TareaTech, tu plataforma de referencia.</p>
+            
+            <p style="color: #666666;">Tu código de segundo factor de autenticación es:</p>
+            
+            <div style="background-color: #f5f5f5; padding: 10px 20px; border-radius: 5px; margin-bottom: 20px;">
+                <h3 style="margin: 0; color: #333333; font-size: 24px;">${codigo}</h3>
+            </div>
+            
+            <p style="color: #666666;">Por favor, utiliza este código como segundo paso para completar tu inicio de sesión en TareaTech. Este código es válido por un tiempo limitado.</p>
+            
+            <p style="color: #666666;">Si no intentaste iniciar sesión o no solicitaste este código, por favor ignora este correo.</p>
+            
+            <p style="color: #666666;">Gracias,</p>
+            
+            <p style="color: #666666;">El equipo de TareaTech</p>
+        
+        </div>
+    
+    </body>
+    </html>`,
   };
 
   transport = nodemailer.createTransport(config);
