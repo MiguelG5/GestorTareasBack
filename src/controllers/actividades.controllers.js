@@ -62,6 +62,7 @@ actividadesCtrl.getActividad = async (req, res) => {
 };
 
 // Obtener actividades por proyecto
+// Obtener actividades por proyecto
 actividadesCtrl.getActividadesByProyecto = async (req, res) => {
   try {
     const { proyecto_id } = req.params;
@@ -85,6 +86,7 @@ actividadesCtrl.getActividadesByProyecto = async (req, res) => {
     res.status(500).send("Error interno del servidor");
   }
 };
+
 
 // Actualizar una actividad por su ID
 actividadesCtrl.editActividad = async (req, res) => {

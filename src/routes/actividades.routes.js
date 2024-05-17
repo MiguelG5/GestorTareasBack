@@ -9,7 +9,7 @@ router.post("/", actividadesCtrl.createActividad);
 
 router.get("/:id", actividadesCtrl.getActividad);
 
-router.get("/:idUser", actividadesCtrl.getActividadesByProyecto);
+router.get("/proyecto/:proyecto_id", actividadesCtrl.getActividadesByProyecto);
 
 router.put("/:id", actividadesCtrl.editActividad);
 

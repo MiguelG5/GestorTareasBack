@@ -122,40 +122,41 @@ async function sendCode(correo, codigo) {
     to: correo,
     subject: "Reestablecer Contraseña",
     html: `<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Código de Restablecimiento de Contraseña - Gustoes</title>
-</head>
-<body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
-
-    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
-        
-        <h2 style="color: #333333;">Código de Restablecimiento de Contraseña - Gustoes</h2>
-        
-        <p style="color: #666666;">Hola,</p>
-        
-        <p style="color: #666666;">Recibes este correo porque solicitaste restablecer tu contraseña en Gustoes, el restaurante elegante por excelencia.</p>
-        
-        <p style="color: #666666;">Tu código de restablecimiento de contraseña es:</p>
-        
-        <div style="background-color: #f5f5f5; padding: 10px 20px; border-radius: 5px; margin-bottom: 20px;">
-            <h3 style="margin: 0; color: #333333; font-size: 24px;">${codigo}</h3>
-        </div>
-        
-        <p style="color: #666666;">Por favor, utiliza este código para restablecer tu contraseña. Este código es válido por un tiempo limitado.</p>
-        
-        <p style="color: #666666;">Si no solicitaste este cambio, por favor ignora este correo. Tu contraseña seguirá siendo la misma.</p>
-        
-        <p style="color: #666666;">Gracias,</p>
-        
-        <p style="color: #666666;">El equipo de Gustoes</p>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Código de Restablecimiento de Contraseña - TareaTech</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
     
-    </div>
-
-</body>
-</html>
+        <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+            
+            <h2 style="color: #333333;">Código de Restablecimiento de Contraseña - TareaTech</h2>
+            
+            <p style="color: #666666;">Hola,</p>
+            
+            <p style="color: #666666;">Recibes este correo porque solicitaste restablecer tu contraseña en TareaTech, la plataforma para gestionar tareas eficientemente.</p>
+            
+            <p style="color: #666666;">Tu código de restablecimiento de contraseña es:</p>
+            
+            <div style="background-color: #f5f5f5; padding: 10px 20px; border-radius: 5px; margin-bottom: 20px;">
+                <h3 style="margin: 0; color: #333333; font-size: 24px;">${codigo}</h3>
+            </div>
+            
+            <p style="color: #666666;">Por favor, utiliza este código para restablecer tu contraseña. Este código es válido por un tiempo limitado.</p>
+            
+            <p style="color: #666666;">Si no solicitaste este cambio, por favor ignora este correo. Tu contraseña seguirá siendo la misma.</p>
+            
+            <p style="color: #666666;">Gracias,</p>
+            
+            <p style="color: #666666;">El equipo de TareaTech</p>
+        
+        </div>
+    
+    </body>
+    </html>
+    
 `,
   };
 
