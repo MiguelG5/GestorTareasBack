@@ -64,7 +64,7 @@ proyectoCtrl.getProyecto = async (req, res) => {
 // Obtener proyectos por el ID del usuario
 proyectoCtrl.getProyectosByUser = async (req, res) => {
   try {
-    const { user_id } = req.params;
+    const { user_id } = req.params; // Cambiado de req.query a req.params
 
     if (!user_id) {
       return res.status(400).send("ID del usuario es requerido.");

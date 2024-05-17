@@ -9,7 +9,7 @@ router.post("/", proyectoCtrl.createProyecto);
 
 router.get("/:id", proyectoCtrl.getProyecto);
 
-router.get("/:idUser", proyectoCtrl.getProyectosByUser);
+router.get("/user/:user_id", proyectoCtrl.getProyectosByUser); // Cambiada la ruta para evitar conflictos
 
 router.put("/:id", proyectoCtrl.editProyecto);
 
