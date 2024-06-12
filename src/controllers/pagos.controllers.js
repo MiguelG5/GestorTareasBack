@@ -16,17 +16,17 @@ pagosCtrl.getPagos = async (req, res) => {
 // Crear un nuevo pago
 pagosCtrl.createPago = async (req, res) => {
   try {
-    const { user_id, plan } = req.body;
+    const { user_id, plan, fecha_inicio, fecha_finalizacion } = req.body;
 
-    if (!user_id || !plan) {
+    if (!user_id || !plan || !fecha_inicio || !fecha_finalizacion) {
       return res.status(400).json({
-        error: "user_id y plan son campos requeridos.",
+        error: "user_id, plan, fecha_inicio y fecha_finalizacion son campos requeridos.",
       });
     }
 
     const result = await pool.query(
-      "INSERT INTO pagos (user_id, plan) VALUES ($1, $2) RETURNING *",
-      [user_id, plan]
+      "INSERT INTO pagos (user_id, plan, fecha_inicio, fecha_finalizacion) VALUES ($1, $2, $3, $4) RETURNING *",
+      [user_id, plan, fecha_inicio, fecha_finalizacion]
     );
 
     res.status(201).json(result.rows[0]);
@@ -90,21 +90,35 @@ pagosCtrl.getPagosByUser = async (req, res) => {
 pagosCtrl.editPago = async (req, res) => {
   try {
     const { id } = req.params;
-    const { plan } = req.body;
+    const { plan, fecha_inicio, fecha_finalizacion } = req.body;
 
     if (!id) {
       return res.status(400).send("ID del pago es requerido.");
     }
 
-    if (!plan) {
-      return res.status(400).json({
-        error: "plan es un campo requerido.",
-      });
+    const updateFields = [];
+    const values = [];
+
+    if (plan) {
+      updateFields.push(`plan = $${values.length + 1}`);
+      values.push(plan);
     }
 
-    const updateQuery = `UPDATE pagos SET plan = $1 WHERE id = $2 RETURNING *`;
+    if (fecha_inicio) {
+      updateFields.push(`fecha_inicio = $${values.length + 1}`);
+      values.push(fecha_inicio);
+    }
 
-    const result = await pool.query(updateQuery, [plan, id]);
+    if (fecha_finalizacion) {
+      updateFields.push(`fecha_finalizacion = $${values.length + 1}`);
+      values.push(fecha_finalizacion);
+    }
+
+    const updateQuery = `UPDATE pagos SET ${updateFields.join(
+      ", "
+    )} WHERE id = $${values.length + 1} RETURNING *`;
+
+    const result = await pool.query(updateQuery, [...values, id]);
 
     if (result.rows.length === 0) {
       return res.status(404).send("Pago no encontrado.");
