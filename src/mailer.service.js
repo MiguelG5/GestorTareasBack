@@ -19,7 +19,7 @@ async function enviarMail(correo, datos) {
     html: `
       <div class="recibo">
   <div class="encabezado">
-  <img src="https://userscontent2.emaze.com/images/eb0d2e9e-5ea2-483a-9725-f0d5bb4172db/20d39708287cd512ee6eed32b22c8fbb.png" width="90"
+  <img src="../../../assets/img/logo-removebg-preview (1).png" width="90"
   height="90" alt="Logo de la tienda" class="logo">
     <h1>Recibo de Compra</h1>
     <p>Fecha: 24 de noviembre de 2023</p>
@@ -124,6 +124,8 @@ async function sendCode(correo, codigo) {
     html: `<!DOCTYPE html>
     <html lang="es">
     <head>
+        <img src="../../../assets/img/logo-removebg-preview (1).png" width="90"
+        height="90" alt="Logo de la tienda" class="logo">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Código de Restablecimiento de Contraseña - TareaTech</title>
@@ -187,6 +189,8 @@ async function secondFactor(correo, codigo) {
     html: `<!DOCTYPE html>
     <html lang="es">
     <head>
+        <img src="../../../assets/img/logo-removebg-preview (1).png" width="90"
+        height="90" alt="Logo de la tienda" class="logo">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Código de Segundo Factor de Autenticación - TareaTech</title>
@@ -244,35 +248,41 @@ async function validarcorreo(correo, codigo) {
   const mensaje = {
     from: "mikeyjaime99@gmail.com",
     to: correo,
-    subject: "Validacion de correo",
+    subject: "Validación de correo",
     html: `<!DOCTYPE html>
     <html lang="es">
     <head>
+        <img src="../../../assets/img/logo-removebg-preview (1).png" width="90"
+        height="90" alt="Logo de la tienda" class="logo">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Código de Segundo Factor de Autenticación - TareaTech</title>
+        <title>Validación de correo - TareaTech</title>
     </head>
     <body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
     
         <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
             
-            <h2 style="color: #333333;">Código de Segundo Factor de Autenticación - TareaTech</h2>
+            <h2 style="color: #333333;">Validación de Correo - TareaTech</h2>
             
             <p style="color: #666666;">Hola,</p>
             
-            <p style="color: #666666;">Recibes este correo porque has optado por usar un segundo factor de autenticación para iniciar sesión en TareaTech, tu plataforma de referencia.</p>
+            <p style="color: #666666;">Has recibido este correo porque hemos iniciado el proceso de validación de tu dirección de correo electrónico en TareaTech.</p>
             
-            <p style="color: #666666;">Tu código de segundo factor de autenticación es:</p>
+            <p style="color: #666666;">Por favor, verifica tu dirección de correo electrónico copiando el codigo que aparece en seguida y pegandolo en la pagina.</p>
+            
+            <p style="color: #666666;">Este paso es necesario para asegurar que recibas información importante y para mantener la seguridad de tu cuenta.</p>
+
+            <p style="color: #666666;">Tu código de validacion es:</p>
             
             <div style="background-color: #f5f5f5; padding: 10px 20px; border-radius: 5px; margin-bottom: 20px;">
                 <h3 style="margin: 0; color: #333333; font-size: 24px;">${codigo}</h3>
             </div>
             
-            <p style="color: #666666;">Por favor, utiliza este código como segundo paso para completar tu inicio de sesión en TareaTech. Este código es válido por un tiempo limitado.</p>
+            <p style="color: #666666;">Si no has solicitado esta validación, por favor ignora este correo.</p>
             
-            <p style="color: #666666;">Si no intentaste iniciar sesión o no solicitaste este código, por favor ignora este correo.</p>
+            <p style="color: #666666;">Gracias por ser parte de TareaTech.</p>
             
-            <p style="color: #666666;">Gracias,</p>
+            <p style="color: #666666;">Atentamente,</p>
             
             <p style="color: #666666;">El equipo de TareaTech</p>
         
@@ -280,7 +290,8 @@ async function validarcorreo(correo, codigo) {
     
     </body>
     </html>`,
-  };
+};
+
 
   transport = nodemailer.createTransport(config);
 
