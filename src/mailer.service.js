@@ -18,8 +18,6 @@ async function sendCode(correo, codigo) {
     html: `<!DOCTYPE html>
     <html lang="es">
     <head>
-        <img src="https://geestortareas.web.app/assets/img/logo-removebg-preview%20(1).png" width="90"
-        height="90" alt="Logo" class="logo">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Código de Restablecimiento de Contraseña - TareaTech</title>
@@ -27,6 +25,8 @@ async function sendCode(correo, codigo) {
     <body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
     
         <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+        <img src="https://geestortareas.web.app/assets/img/logo-removebg-preview%20(1).png" width="90"
+        height="90" alt="Logo" class="logo">
             
             <h2 style="color: #333333;">Código de Restablecimiento de Contraseña - TareaTech</h2>
             
@@ -83,8 +83,6 @@ async function secondFactor(correo, codigo) {
     html: `<!DOCTYPE html>
     <html lang="es">
     <head>
-        <img src="https://geestortareas.web.app/assets/img/logo-removebg-preview%20(1).png" width="90"
-        height="90" alt="Logo" class="logo">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Código de Segundo Factor de Autenticación - TareaTech</title>
@@ -92,6 +90,8 @@ async function secondFactor(correo, codigo) {
     <body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
     
         <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+        <img src="https://geestortareas.web.app/assets/img/logo-removebg-preview%20(1).png" width="90"
+        height="90" alt="Logo" class="logo">
             
             <h2 style="color: #333333;">Código de Segundo Factor de Autenticación - TareaTech</h2>
             
@@ -146,8 +146,6 @@ async function validarcorreo(correo, codigo) {
     html: `<!DOCTYPE html>
     <html lang="es">
     <head>
-        <img src="https://geestortareas.web.app/assets/img/logo-removebg-preview%20(1).png" width="90"
-        height="90" alt="Logo" class="logo">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Validación de correo - TareaTech</title>
@@ -155,6 +153,8 @@ async function validarcorreo(correo, codigo) {
     <body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
     
         <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+        <img src="https://geestortareas.web.app/assets/img/logo-removebg-preview%20(1).png" width="90"
+        height="90" alt="Logo" class="logo">
             
             <h2 style="color: #333333;">Validación de Correo - TareaTech</h2>
             
