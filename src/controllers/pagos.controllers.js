@@ -1,4 +1,6 @@
 const pool = require("../database");
+const pagosCtrl = require("../controllers/pagos.controllers.js");
+const userCtrl = require("../controllers/user.controllers.js");
 
 const pagosCtrl = {};
 
@@ -28,6 +30,15 @@ pagosCtrl.createPago = async (req, res) => {
       "INSERT INTO pagos (user_id, paquete_id, fecha_inicio, fecha_finalizacion) VALUES ($1, $2, $3, $4) RETURNING *",
       [user_id, paquete_id, fecha_inicio, fecha_finalizacion]
     );
+
+    // Actualizar rol a 'Admin'
+    const updateRoleResult = await userCtrl.updateUserRoleToAdmin(user_id);
+
+    if (!updateRoleResult.success) {
+      // Manejar el error si la actualización falla
+      console.error("Error al actualizar rol del usuario:", updateRoleResult.error);
+      // Aunque la actualización del rol falla, se sigue devolviendo el pago creado con éxito
+    }
 
     res.status(201).json(result.rows[0]);
   } catch (error) {

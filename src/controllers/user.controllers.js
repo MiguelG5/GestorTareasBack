@@ -307,6 +307,29 @@ userCtrl.validarcorreo = (req, res) => {
     });
 };
 
+userCtrl.updateUserRoleToAdmin = async (user_id) => {
+  try {
+    const updateUserQuery = `
+      UPDATE users
+      SET role = 'Admin'
+      WHERE id = $1
+      RETURNING *;
+    `;
+
+    const updateUserValues = [user_id];
+
+    const result = await pool.query(updateUserQuery, updateUserValues);
+
+    if (result.rows.length === 0) {
+      return { success: false, error: "Usuario no encontrado para actualizar el rol a Admin." };
+    }
+
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+};
+
 function generarRespuesta(estado, mensaje, objeto, token) {
   return {
     estado: estado,
