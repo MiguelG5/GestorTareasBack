@@ -4,7 +4,7 @@ const userCtrl = require("../controllers/user.controllers.js");
 
 const pagosCtrl = {};
 
-// Obtener todos los pagos
+// Obtener todos los pagos 
 pagosCtrl.getPagos = async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM pagos");
