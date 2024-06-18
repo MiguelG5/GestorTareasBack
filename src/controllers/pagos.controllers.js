@@ -1,7 +1,6 @@
 const pool = require("../database");
-const userCtrl = require("../controllers/user.controllers.js");
-
 const pagosCtrl = {};
+const userCtrl = require("../controllers/user.controllers.js");
 
 // Obtener todos los pagos 
 pagosCtrl.getPagos = async (req, res) => {
@@ -14,6 +13,16 @@ pagosCtrl.getPagos = async (req, res) => {
   }
 };
 
+// Función para generar una contraseña aleatoria
+function generateRandomPassword(length) {
+  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    password += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return password;
+}
+
 // Crear un nuevo pago
 pagosCtrl.createPago = async (req, res) => {
   try {
@@ -22,6 +31,18 @@ pagosCtrl.createPago = async (req, res) => {
     if (!user_id || !paquete_id || !fecha_inicio || !fecha_finalizacion) {
       return res.status(400).json({
         error: "user_id, paquete_id, fecha_inicio y fecha_finalizacion son campos requeridos.",
+      });
+    }
+
+    // Verificar si el usuario ya tiene un pago activo
+    const activePayment = await pool.query(
+      "SELECT * FROM pagos WHERE user_id = $1 AND fecha_finalizacion > NOW()",
+      [user_id]
+    );
+
+    if (activePayment.rows.length > 0) {
+      return res.status(400).json({
+        error: "El usuario ya tiene un pago activo.",
       });
     }
 
@@ -34,9 +55,24 @@ pagosCtrl.createPago = async (req, res) => {
     const updateRoleResult = await userCtrl.updateUserRoleToAdmin(user_id);
 
     if (!updateRoleResult.success) {
-      // Manejar el error si la actualización falla
       console.error("Error al actualizar rol del usuario:", updateRoleResult.error);
-      // Aunque la actualización del rol falla, se sigue devolviendo el pago creado con éxito
+    }
+
+    // Obtener la cantidad de colaboradores del paquete
+    const paqueteResult = await pool.query(
+      "SELECT numero_colaboradores FROM paquetes WHERE id = $1",
+      [paquete_id]
+    );
+    const numeroColaboradores = paqueteResult.rows[0].numero_colaboradores;
+
+    // Crear colaboradores
+    for (let i = 1; i <= numeroColaboradores; i++) {
+      const email = `${String(i).padStart(6, '0')}@colaborador.com`;
+      const password = generateRandomPassword(8);
+      await pool.query(
+        "INSERT INTO colaboradores (email, password, usuario_id, pago_id) VALUES ($1, $2, $3, $4)",
+        [email, password, user_id, result.rows[0].id]
+      );
     }
 
     res.status(201).json(result.rows[0]);
