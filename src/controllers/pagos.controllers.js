@@ -16,17 +16,17 @@ pagosCtrl.getPagos = async (req, res) => {
 // Crear un nuevo pago
 pagosCtrl.createPago = async (req, res) => {
   try {
-    const { user_id, plan, fecha_inicio, fecha_finalizacion } = req.body;
+    const { user_id, paquete_id, fecha_inicio, fecha_finalizacion } = req.body;
 
-    if (!user_id || !plan || !fecha_inicio || !fecha_finalizacion) {
+    if (!user_id || !paquete_id || !fecha_inicio || !fecha_finalizacion) {
       return res.status(400).json({
-        error: "user_id, plan, fecha_inicio y fecha_finalizacion son campos requeridos.",
+        error: "user_id, paquete_id, fecha_inicio y fecha_finalizacion son campos requeridos.",
       });
     }
 
     const result = await pool.query(
-      "INSERT INTO pagos (user_id, plan, fecha_inicio, fecha_finalizacion) VALUES ($1, $2, $3, $4) RETURNING *",
-      [user_id, plan, fecha_inicio, fecha_finalizacion]
+      "INSERT INTO pagos (user_id, paquete_id, fecha_inicio, fecha_finalizacion) VALUES ($1, $2, $3, $4) RETURNING *",
+      [user_id, paquete_id, fecha_inicio, fecha_finalizacion]
     );
 
     res.status(201).json(result.rows[0]);
@@ -90,7 +90,7 @@ pagosCtrl.getPagosByUser = async (req, res) => {
 pagosCtrl.editPago = async (req, res) => {
   try {
     const { id } = req.params;
-    const { plan, fecha_inicio, fecha_finalizacion } = req.body;
+    const { paquete_id, fecha_inicio, fecha_finalizacion } = req.body;
 
     if (!id) {
       return res.status(400).send("ID del pago es requerido.");
@@ -99,9 +99,9 @@ pagosCtrl.editPago = async (req, res) => {
     const updateFields = [];
     const values = [];
 
-    if (plan) {
-      updateFields.push(`plan = $${values.length + 1}`);
-      values.push(plan);
+    if (paquete_id) {
+      updateFields.push(`paquete_id = $${values.length + 1}`);
+      values.push(paquete_id);
     }
 
     if (fecha_inicio) {
@@ -112,6 +112,10 @@ pagosCtrl.editPago = async (req, res) => {
     if (fecha_finalizacion) {
       updateFields.push(`fecha_finalizacion = $${values.length + 1}`);
       values.push(fecha_finalizacion);
+    }
+
+    if (updateFields.length === 0) {
+      return res.status(400).send("No hay campos para actualizar.");
     }
 
     const updateQuery = `UPDATE pagos SET ${updateFields.join(
