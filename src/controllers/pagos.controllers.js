@@ -1,5 +1,4 @@
 const pool = require("../database");
-const pagosCtrl = require("../controllers/pagos.controllers.js");
 const userCtrl = require("../controllers/user.controllers.js");
 
 const pagosCtrl = {};
