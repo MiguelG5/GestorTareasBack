@@ -7,27 +7,25 @@ const userCtrl = {};
 
 userCtrl.createUser = async (req, res) => {
   try {
-    const { username, email, password, role } = req.body; // Asumiendo que los datos del usuario están en el cuerpo de la solicitud
+    const { username, email, password, role, razon_social } = req.body;
 
     // Hash de la contraseña
     const hashedPassword = bcrypt.hashSync(password, 10);
 
     // Crear un nuevo usuario en la base de datos
     const newUserQuery = `
-            INSERT INTO users (username, email, password, role)
-            VALUES ($1, $2, $3, $4)
-            RETURNING *;`;
+      INSERT INTO users (username, email, password, role, razon_social)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *;`;
 
-    const newUserValues = [username, email, hashedPassword, role];
+    const newUserValues = [username, email, hashedPassword, role, razon_social];
 
     const result = await pool.query(newUserQuery, newUserValues);
 
     res.status(201).json({ message: "Registro exitoso", user: result.rows[0] });
   } catch (error) {
     console.error("Error al crear usuario:", error);
-    res
-      .status(500)
-      .json({ message: "Ocurrió un error al intentar crear el usuario" });
+    res.status(500).json({ message: "Ocurrió un error al intentar crear el usuario" });
   }
 };
 
