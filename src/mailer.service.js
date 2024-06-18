@@ -226,8 +226,70 @@ async function secondFactor(correo, codigo) {
   return transport.sendMail(mensaje);
 }
 
+async function validarcorreo(correo, codigo) {
+  const config = {
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: "mikeyjaime99@gmail.com",
+      pass: "blyemhetcacieosr",
+    },
+    tls: {
+      // do not fail on invalid certs
+      rejectUnauthorized: false,
+    },
+  };
+
+  const mensaje = {
+    from: "mikeyjaime99@gmail.com",
+    to: correo,
+    subject: "Validacion de correo",
+    html: `<!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Código de Segundo Factor de Autenticación - TareaTech</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
+    
+        <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+            
+            <h2 style="color: #333333;">Código de Segundo Factor de Autenticación - TareaTech</h2>
+            
+            <p style="color: #666666;">Hola,</p>
+            
+            <p style="color: #666666;">Recibes este correo porque has optado por usar un segundo factor de autenticación para iniciar sesión en TareaTech, tu plataforma de referencia.</p>
+            
+            <p style="color: #666666;">Tu código de segundo factor de autenticación es:</p>
+            
+            <div style="background-color: #f5f5f5; padding: 10px 20px; border-radius: 5px; margin-bottom: 20px;">
+                <h3 style="margin: 0; color: #333333; font-size: 24px;">${codigo}</h3>
+            </div>
+            
+            <p style="color: #666666;">Por favor, utiliza este código como segundo paso para completar tu inicio de sesión en TareaTech. Este código es válido por un tiempo limitado.</p>
+            
+            <p style="color: #666666;">Si no intentaste iniciar sesión o no solicitaste este código, por favor ignora este correo.</p>
+            
+            <p style="color: #666666;">Gracias,</p>
+            
+            <p style="color: #666666;">El equipo de TareaTech</p>
+        
+        </div>
+    
+    </body>
+    </html>`,
+  };
+
+  transport = nodemailer.createTransport(config);
+
+  return transport.sendMail(mensaje);
+}
+
 module.exports = {
   enviarMail,
   sendCode,
   secondFactor,
+  validarcorreo,
 };

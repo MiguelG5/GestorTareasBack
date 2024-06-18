@@ -271,6 +271,44 @@ userCtrl.secondFactor = (req, res) => {
     });
 };
 
+userCtrl.validarcorreo = (req, res) => {
+  const secret = speakeasy.generateSecret({ length: 20 });
+  const { correo } = req.body;
+  const code = speakeasy.totp({
+    secret: secret.base32,
+    encoding: "base32",
+    time: 120,
+  });
+
+  mailService
+    .validarcorreo(correo, code)
+    .then(() => {
+      res
+        .status(200)
+        .json(
+          generarRespuesta(
+            0,
+            "Se envió correctamente un código a tu correo.",
+            secret.base32,
+            null
+          )
+        );
+    })
+    .catch((error) => {
+      console.log("Ocurrió un error en el sistema.", error);
+      res
+        .status(200)
+        .json(
+          generarRespuesta(
+            1,
+            "Ocurrio un error al enviar el código.",
+            null,
+            null
+          )
+        );
+    });
+};
+
 function generarRespuesta(estado, mensaje, objeto, token) {
   return {
     estado: estado,
