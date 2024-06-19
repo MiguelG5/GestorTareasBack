@@ -84,34 +84,46 @@ actividadColaboradorCtrl.enrolarColaboradoresEnActividad = async (req, res) => {
       return res.status(404).send("Actividad no encontrada.");
     }
 
-    // Enrolar cada colaborador a la actividad
-    const promises = colaboradores.map(async (colaborador_id) => {
-      // Verificar si el colaborador existe
-      const colaboradorCheck = await pool.query(
-        "SELECT * FROM colaboradores WHERE id = $1",
-        [colaborador_id]
-      );
+    // Usar una transacción para garantizar atomicidad
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
 
-      if (colaboradorCheck.rows.length === 0) {
-        console.warn(`Colaborador con ID ${colaborador_id} no encontrado, no se realizará el enrolamiento.`);
-        return null;
-      }
+      const promises = colaboradores.map(async (colaborador_id) => {
+        // Verificar si el colaborador existe
+        const colaboradorCheck = await client.query(
+          "SELECT * FROM colaboradores WHERE id = $1",
+          [colaborador_id]
+        );
 
-      // Enrolar el colaborador a la actividad
-      const result = await pool.query(
-        "INSERT INTO actividad_colaborador (actividad_id, colaborador_id) VALUES ($1, $2) RETURNING *",
-        [actividad_id, colaborador_id]
-      );
+        if (colaboradorCheck.rows.length === 0) {
+          console.warn(`Colaborador con ID ${colaborador_id} no encontrado, no se realizará el enrolamiento.`);
+          return null;
+        }
 
-      return result.rows[0];
-    });
+        // Enrolar el colaborador a la actividad
+        const result = await client.query(
+          "INSERT INTO actividad_colaborador (actividad_id, colaborador_id, fecha_asignacion) VALUES ($1, $2, CURRENT_TIMESTAMP) RETURNING *",
+          [actividad_id, colaborador_id]
+        );
 
-    // Ejecutar todas las promesas y esperar a que terminen
-    const enrolamientos = await Promise.all(promises);
+        return result.rows[0];
+      });
 
-    res.json(enrolamientos.filter(enrolamiento => enrolamiento !== null)); // Retornar los enrolamientos exitosos
+      // Ejecutar todas las promesas y esperar a que terminen
+      const enrolamientos = await Promise.all(promises);
+
+      await client.query("COMMIT");
+      res.json(enrolamientos.filter(enrolamiento => enrolamiento !== null)); // Retornar los enrolamientos exitosos
+    } catch (error) {
+      await client.query("ROLLBACK");
+      console.error("Error al enrolar colaboradores en actividad:", error);
+      res.status(500).json({ error: "Error interno del servidor" });
+    } finally {
+      client.release();
+    }
   } catch (error) {
-    console.error("Error al enrolar colaboradores en actividad:", error);
+    console.error("Error general al enrolar colaboradores en actividad:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };
