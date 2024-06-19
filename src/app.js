@@ -17,5 +17,6 @@ app.use("/api/actividades", require("./routes/actividades.routes"));
 app.use("/api/pagos", require("./routes/pagos.routes"));
 app.use("/api/paquetes", require("./routes/paquetes.routes"));
 app.use("/api/colaboradores", require("./routes/colaboradores.routes"));
+app.use("/api/colaboradorProyecto", require("./routes/colaboradorProyecto.routes"));
 
 module.exports = app;
