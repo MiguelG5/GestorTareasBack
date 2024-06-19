@@ -63,45 +63,55 @@ actividadColaboradorCtrl.getEnrolamientosByColaborador = async (req, res) => {
   }
 };
 
-// Enrolar un colaborador en una actividad
-actividadColaboradorCtrl.enrolarColaboradorEnActividad = async (req, res) => {
+// Enrolar múltiples colaboradores en una actividad
+actividadColaboradorCtrl.enrolarColaboradoresEnActividad = async (req, res) => {
   try {
-    const { colaborador_id, actividad_id } = req.body;
+    const { actividad_id, colaboradores } = req.body;
 
-    if (!colaborador_id || !actividad_id) {
+    if (!actividad_id || !colaboradores || !Array.isArray(colaboradores) || colaboradores.length === 0) {
       return res.status(400).json({
-        error: "colaborador_id y actividad_id son campos requeridos.",
+        error: "actividad_id y colaboradores (arreglo de IDs) son campos requeridos y no pueden estar vacíos.",
       });
     }
 
-    // Verificar si el colaborador y la actividad existen
-    const colaboradorCheck = await pool.query(
-      "SELECT * FROM colaboradores WHERE id = $1",
-      [colaborador_id]
-    );
-
+    // Verificar si la actividad existe
     const actividadCheck = await pool.query(
       "SELECT * FROM actividades WHERE id = $1",
       [actividad_id]
     );
 
-    if (colaboradorCheck.rows.length === 0) {
-      return res.status(404).send("Colaborador no encontrado.");
-    }
-
     if (actividadCheck.rows.length === 0) {
       return res.status(404).send("Actividad no encontrada.");
     }
 
-    // Enrolar el colaborador a la actividad
-    const result = await pool.query(
-      "INSERT INTO actividad_colaborador (actividad_id, colaborador_id) VALUES ($1, $2) RETURNING *",
-      [actividad_id, colaborador_id]
-    );
+    // Enrolar cada colaborador a la actividad
+    const promises = colaboradores.map(async (colaborador_id) => {
+      // Verificar si el colaborador existe
+      const colaboradorCheck = await pool.query(
+        "SELECT * FROM colaboradores WHERE id = $1",
+        [colaborador_id]
+      );
 
-    res.json(result.rows[0]);
+      if (colaboradorCheck.rows.length === 0) {
+        console.warn(`Colaborador con ID ${colaborador_id} no encontrado, no se realizará el enrolamiento.`);
+        return null;
+      }
+
+      // Enrolar el colaborador a la actividad
+      const result = await pool.query(
+        "INSERT INTO actividad_colaborador (actividad_id, colaborador_id) VALUES ($1, $2) RETURNING *",
+        [actividad_id, colaborador_id]
+      );
+
+      return result.rows[0];
+    });
+
+    // Ejecutar todas las promesas y esperar a que terminen
+    const enrolamientos = await Promise.all(promises);
+
+    res.json(enrolamientos.filter(enrolamiento => enrolamiento !== null)); // Retornar los enrolamientos exitosos
   } catch (error) {
-    console.error("Error al enrolar colaborador en actividad:", error);
+    console.error("Error al enrolar colaboradores en actividad:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };

@@ -9,6 +9,6 @@ router.get("/actividad/:actividad_id", actividadColaboradorCtrl.getEnrolamientos
 
 router.get("/colaborador/:colaborador_id", actividadColaboradorCtrl.getEnrolamientosByColaborador);
 
-router.post("/enrolar", actividadColaboradorCtrl.enrolarColaboradorEnActividad);
+router.post("/enrolar", actividadColaboradorCtrl.enrolarColaboradoresEnActividad);
 
 module.exports = router;
