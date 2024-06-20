@@ -63,6 +63,29 @@ actividadColaboradorCtrl.getEnrolamientosByColaborador = async (req, res) => {
   }
 };
 
+actividadColaboradorCtrl.eliminarColaboradorDeActividad = async (req, res) => {
+  try {
+    const { actividad_id, colaborador_id } = req.params;
+
+    if (!actividad_id || !colaborador_id) {
+      return res.status(400).send("actividad_id y colaborador_id son campos requeridos.");
+    }
+
+    const result = await pool.query(
+      "DELETE FROM actividad_colaborador WHERE actividad_id = $1 AND colaborador_id = $2 RETURNING *",
+      [actividad_id, colaborador_id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).send("No se encontró el colaborador enrolado en la actividad.");
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("Error al eliminar colaborador de actividad:", error);
+    res.status(500).send("Error interno del servidor");
+  }
+};
 // Enrolar múltiples colaboradores en una actividad
 // actividad_colaborador.controllers.js
 

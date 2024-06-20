@@ -15,4 +15,6 @@ router.get("/colaborador/:colaborador_id", actividadColaboradorCtrl.getEnrolamie
 
 router.post("/enrolar", actividadColaboradorCtrl.enrolarColaboradoresEnActividad);
 
+router.delete("/eliminar/:actividad_id/:colaborador_id", actividadColaboradorCtrl.eliminarColaboradorDeActividad);
+
 module.exports = router;
