@@ -1,3 +1,5 @@
+// actividad_colaborador.routes.js
+
 const { Router } = require("express");
 const router = Router();
 

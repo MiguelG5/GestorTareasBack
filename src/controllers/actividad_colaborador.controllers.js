@@ -64,11 +64,15 @@ actividadColaboradorCtrl.getEnrolamientosByColaborador = async (req, res) => {
 };
 
 // Enrolar múltiples colaboradores en una actividad
+// actividad_colaborador.controllers.js
+
+// Enrolar múltiples colaboradores en una actividad
 actividadColaboradorCtrl.enrolarColaboradoresEnActividad = async (req, res) => {
   try {
-    const { actividad_id, colaboradores } = req.body;
+    const { actividad_id } = req.body;
+    const colaboradores = req.body.colaboradores || [];
 
-    if (!actividad_id || !colaboradores || !Array.isArray(colaboradores) || colaboradores.length === 0) {
+    if (!actividad_id || colaboradores.length === 0) {
       return res.status(400).json({
         error: "actividad_id y colaboradores (arreglo de IDs) son campos requeridos y no pueden estar vacíos.",
       });
@@ -127,5 +131,6 @@ actividadColaboradorCtrl.enrolarColaboradoresEnActividad = async (req, res) => {
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };
+
 
 module.exports = actividadColaboradorCtrl;
