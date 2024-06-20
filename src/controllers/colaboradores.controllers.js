@@ -81,4 +81,27 @@ colaboradoresCtrl.enrolarColaborador = async (req, res) => {
   }
 };
 
+// Obtener colaboradores por lista de IDs
+colaboradoresCtrl.getColaboradoresByIds = async (req, res) => {
+  try {
+    const { ids } = req.body;
+
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({
+        error: "Se requiere un arreglo no vacío de IDs de colaboradores.",
+      });
+    }
+
+    // Consultar colaboradores por IDs
+    const result = await pool.query(
+      `SELECT * FROM colaboradores WHERE id IN (${ids.join(",")})`
+    );
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Error al obtener colaboradores por IDs:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
 module.exports = colaboradoresCtrl;
