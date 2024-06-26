@@ -37,7 +37,7 @@ actividadesCtrl.createActividad = async (req, res) => {
 };
 
 // Obtener una actividad por su ID
-actividadesCtrl.getActividad = async (req, res) => {
+actividadesCtrl.getActividadById = async (req, res) => {
   try {
     const { id } = req.params;
 

@@ -7,7 +7,7 @@ router.get("/", actividadesCtrl.getActividades);
 
 router.post("/", actividadesCtrl.createActividad);
 
-router.get("/:id", actividadesCtrl.getActividad);
+router.get("/:id", actividadesCtrl.getActividadById);
 
 router.get("/proyecto/:proyecto_id", actividadesCtrl.getActividadesByProyecto);
 
