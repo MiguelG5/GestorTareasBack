@@ -109,7 +109,7 @@ colaboradoresCtrl.updateColaborador = async (req, res) => {
   try {
     const { id, email, password } = req.body;
 
-    if (!id || !email || !password) {
+    if (!id || !email) {
       return res.status(400).json({
         error: "ID, email y password son campos requeridos.",
       });
