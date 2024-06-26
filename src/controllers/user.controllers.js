@@ -307,8 +307,10 @@ userCtrl.validarcorreo = (req, res) => {
     });
 };
 
-userCtrl.updateUserRoleToAdmin = async (user_id) => {
+userCtrl.updateUserRoleToAdmin = async (req, res) => {
   try {
+    const { user_id } = req.body;
+
     const updateUserQuery = `
       UPDATE users
       SET role = 'Admin'
@@ -321,22 +323,21 @@ userCtrl.updateUserRoleToAdmin = async (user_id) => {
     const result = await pool.query(updateUserQuery, updateUserValues);
 
     if (result.rows.length === 0) {
-      return { success: false, error: "Usuario no encontrado para actualizar el rol a Admin." };
+      return res.status(404).json({ success: false, error: "Usuario no encontrado para actualizar el rol a Admin." });
     }
 
-    return { success: true };
+    const updatedUser = result.rows[0];
+
+    res.status(200).json({
+      success: true,
+      message: "Rol actualizado a Admin correctamente",
+      user: updatedUser
+    });
   } catch (error) {
-    return { success: false, error: error.message };
+    console.error("Error al actualizar rol a Admin:", error);
+    res.status(500).json({ success: false, error: "Error al intentar actualizar el rol a Admin" });
   }
 };
 
-function generarRespuesta(estado, mensaje, objeto, token) {
-  return {
-    estado: estado,
-    mensaje: mensaje,
-    objeto: objeto,
-    token: token,
-  };
-}
 
 module.exports = userCtrl;
