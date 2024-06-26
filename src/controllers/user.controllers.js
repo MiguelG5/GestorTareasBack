@@ -5,6 +5,16 @@ const speakeasy = require("speakeasy");
 const mailService = require("../mailer.service");
 const userCtrl = {};
 
+// Definición de la función generarRespuesta
+function generarRespuesta(estado, mensaje, objeto, token) {
+  return {
+    estado: estado,
+    mensaje: mensaje,
+    objeto: objeto,
+    token: token,
+  };
+}
+
 userCtrl.createUser = async (req, res) => {
   try {
     const { username, email, password, role, razon_social } = req.body;
