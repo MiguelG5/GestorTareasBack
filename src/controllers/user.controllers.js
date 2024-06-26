@@ -7,18 +7,18 @@ const userCtrl = {};
 
 userCtrl.createUser = async (req, res) => {
   try {
-    const { username, email, password, role, razon_social } = req.body;
+    const { username, email, password, role, razon_social, id_colaborador } = req.body;
 
     // Hash de la contraseña
     const hashedPassword = bcrypt.hashSync(password, 10);
 
     // Crear un nuevo usuario en la base de datos
     const newUserQuery = `
-      INSERT INTO users (username, email, password, role, razon_social)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO users (username, email, password, role, razon_social, id_colaborador)
+      VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *;`;
 
-    const newUserValues = [username, email, hashedPassword, role, razon_social];
+    const newUserValues = [username, email, hashedPassword, role, razon_social, id_colaborador];
 
     const result = await pool.query(newUserQuery, newUserValues);
 
