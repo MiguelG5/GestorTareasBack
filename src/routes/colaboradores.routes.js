@@ -11,4 +11,6 @@ router.put("/enrolar", colaboradoresCtrl.enrolarColaborador);
 
 router.post("/details", colaboradoresCtrl.getColaboradoresByIds); // Nueva ruta para obtener colaboradores por IDs
 
+app.put('/api/colaboradores/:id/email-and-password', colaboradoresCtrl.updateColaboradorEmailAndPassword);
+
 module.exports = router;

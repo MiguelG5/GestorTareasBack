@@ -104,4 +104,40 @@ colaboradoresCtrl.getColaboradoresByIds = async (req, res) => {
   }
 };
 
+// Actualizar correo electrónico y contraseña de un colaborador
+colaboradoresCtrl.updateColaboradorEmailAndPassword = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { email, password } = req.body;
+
+    if (!id ||!email ||!password) {
+      return res.status(400).send("ID del colaborador, correo electrónico y contraseña son campos requeridos.");
+    }
+
+    // Verificar si el colaborador existe
+    const colaboradorCheck = await pool.query(
+      "SELECT * FROM colaboradores WHERE id = $1",
+      [id]
+    );
+
+    if (colaboradorCheck.rows.length === 0) {
+      return res.status(404).send("Colaborador no encontrado.");
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Actualizar correo electrónico y contraseña del colaborador
+    const result = await pool.query(
+      "UPDATE colaboradores SET email = $1, password = $2 WHERE id = $3 RETURNING *",
+      [email, hashedPassword, id]
+    );
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("Error al actualizar correo electrónico y contraseña del colaborador:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
 module.exports = colaboradoresCtrl;
