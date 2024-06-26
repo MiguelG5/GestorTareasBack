@@ -70,6 +70,7 @@ userCtrl.loginUser = async (req, res) => {
         username: user.username,
         email: user.email,
         role: user.role,
+        id_colaborador: user.id_colaborador // Asegurarte de que este campo exista
       },
     });
   } catch (error) {
