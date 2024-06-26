@@ -10,5 +10,6 @@ router.post("/validCode", userCtrl.validCode);
 router.put("/updatePassword", userCtrl.updatePassword);
 router.post("/secondFactor", userCtrl.secondFactor);
 router.post("/validarcorreo", userCtrl.validarcorreo);
+router.get("/users", userCtrl.getAllUsers);
 
 module.exports = router;

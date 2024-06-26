@@ -5,6 +5,15 @@ const speakeasy = require("speakeasy");
 const mailService = require("../mailer.service");
 const userCtrl = {};
 
+userCtrl.getAllUsers = async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM users");
+    res.status(200).json({ users: result.rows });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Ocurrió un error al intentar obtener los usuarios" });
+  }
+};
 userCtrl.createUser = async (req, res) => {
   try {
     const { username, email, password, role, razon_social, id_colaborador } = req.body;
