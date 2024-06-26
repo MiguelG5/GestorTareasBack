@@ -87,6 +87,7 @@ function createToken(user) {
     username: user.username,
     email: user.email,
     role: user.role,
+    id_colaborador: user.id_colaborador // Asegurarte de que este campo exista
   };
   return jwt.sign(payload, process.env.SECRETJWT, { expiresIn: 60 });
 }
