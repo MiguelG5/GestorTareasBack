@@ -348,6 +348,57 @@ function generarRespuesta(estado, mensaje, objeto, token) {
     objeto: objeto,
     token: token,
   };
-}
+
+  // Editar usuario
+userCtrl.updateUser = async (req, res) => {
+  try {
+    const { id, username, email, role, razon_social, id_colaborador } = req.body;
+    const updateUserQuery = `
+      UPDATE users
+      SET username = $1, email = $2, role = $3, razon_social = $4, id_colaborador = $5
+      WHERE id = $6
+      RETURNING *;
+    `;
+    const updateUserValues = [username, email, role, razon_social, id_colaborador, id];
+    const result = await pool.query(updateUserQuery, updateUserValues);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    res.status(200).json({ message: "Usuario actualizado correctamente", user: result.rows[0] });
+  } catch (error) {
+    console.error("Error al actualizar usuario:", error);
+    res.status(500).json({ message: "Ocurrió un error al intentar actualizar el usuario" });
+  }
+};
+
+// Eliminar usuario
+userCtrl.deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteUserQuery = `DELETE FROM users WHERE id = $1 RETURNING *;`;
+    const deleteUserValues = [id];
+    const result = await pool.query(deleteUserQuery, deleteUserValues);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    res.status(200).json({ message: "Usuario eliminado correctamente" });
+  } catch (error) {
+    console.error("Error al eliminar usuario:", error);
+    res.status(500).json({ message: "Ocurrió un error al intentar eliminar el usuario" });
+  }
+};
+
+function generarRespuesta(estado, mensaje, objeto, token) {
+  return {
+    estado: estado,
+    mensaje: mensaje,
+    objeto: objeto,
+    token: token,
+  };
+}}
 
 module.exports = userCtrl;

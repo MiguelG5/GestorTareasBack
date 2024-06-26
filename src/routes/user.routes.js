@@ -11,5 +11,9 @@ router.put("/updatePassword", userCtrl.updatePassword);
 router.post("/secondFactor", userCtrl.secondFactor);
 router.post("/validarcorreo", userCtrl.validarcorreo);
 router.get("/users", userCtrl.getAllUsers);
+// PUT
+router.put("/updateUser", userCtrl.updateUser);
 
+// DELETE
+router.delete("/deleteUser/:id", userCtrl.deleteUser);
 module.exports = router;
